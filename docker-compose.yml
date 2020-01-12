@@ -5,3 +5,5 @@ services:
     container_name: php-fpm-mainacad
     volumes:
       - .:/var/www
+    env_file:
+      - docker.env
