@@ -15,8 +15,8 @@
 - Запуск конткейнеров: `docker-compose up -d`
 
 # Наслаждайтесь:
-WEB: http://mainacad-001.local:8082/
-Terminal: `docker exec -it php-fpm-mainacad php l01/test.php`
+- WEB: http://mainacad-001.local:8082/
+- Terminal: `docker exec -it php-fpm-mainacad php l01/test.php`
 
 # Уничтожение контейнеров (если нужно)
 - Остановка контейнеров: `docker stop nginx-mainacad php-fpm-mainacad`
