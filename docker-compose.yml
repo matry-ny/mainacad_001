@@ -7,3 +7,16 @@ services:
       - .:/var/www
     env_file:
       - docker.env
+  nginx:
+    image: nginx:1.17
+    container_name: nginx-mainacad
+    ports:
+      - 8082:80
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/mainacad-001.local.conf:/etc/nginx/conf.d/mainacad-001.local.conf
+      - ./docker/nginx/logs:/var/log/nginx
+    depends_on:
+      - php
+    env_file:
+      - docker.env
