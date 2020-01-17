@@ -10,8 +10,8 @@
 <body>
     <h1>HELLO!</h1>
     <ul>
-        <li><a href="/l01/test.php">Lesson 001</a></li>
-        <li><a href="/l02/basics.php">Lesson 001</a></li>
+        <li><a href="/l01/test.php">Lesson 001. Test</a></li>
+        <li><a href="/l02/basics.php">Lesson 002. Basics</a></li>
     </ul>
 </body>
 </html>
