@@ -4,6 +4,8 @@
 
 error_reporting(E_ALL);
 
+require_once __DIR__ . '/../library.php';
+
 //$func01 = 'var_dump';
 //$func01(55555);
 
@@ -29,24 +31,6 @@ if (isAdult($guestAge)) {
     echo 'RELOCATE', PHP_EOL;
 //    header('Location: https://cleverkids.com.ua/');
 //    exit;
-}
-
-/**
- * @param string $string
- */
-function printLine(string $string) : void
-{
-    echo "{$string}<br>";
-}
-
-/**
- * @param array $array
- */
-function printArray(array $array) : void
-{
-    echo '<pre>';
-    print_r($array);
-    echo '</pre>';
 }
 
 function hashPassword(&$password) : void
