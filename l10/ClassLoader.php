@@ -7,6 +7,7 @@ class ClassLoader
 {
     /**
      * @param string $class
+     * @throws Exception
      */
     public function load(string $class) : void
     {
