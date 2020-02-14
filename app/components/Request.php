@@ -33,8 +33,8 @@ class Request
     public function __construct(string $rout, string $delimiter = '/')
     {
         $this->routParts = array_filter(explode($delimiter, $rout));
-        $this->controllerName = array_shift($this->routParts) ?? 'index';
-        $this->actionName = array_shift($this->routParts) ?? 'index';
+        $this->controllerName = array_shift($this->routParts) ?: 'index';
+        $this->actionName = array_shift($this->routParts) ?: 'index';
     }
 
     /**
