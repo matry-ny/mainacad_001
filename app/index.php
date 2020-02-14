@@ -1,6 +1,7 @@
 <?php
 
+use components\App;
+
 require_once __DIR__ . '/autoload.php';
 
-$request = new \components\Request($_SERVER['REQUEST_URI']);
-var_dump($request);
+(new App())->run();
