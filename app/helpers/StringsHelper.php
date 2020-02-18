@@ -16,4 +16,14 @@ class StringsHelper
     {
         return str_replace(' ', '', ucwords(str_replace('-', ' ', $string)));
     }
+
+    /**
+     * @param string $string
+     * @param string|null $symbols
+     * @return string
+     */
+    public static function trim(string $string, ?string $symbols = null) : string
+    {
+        return trim($string, " \t\n\r\0\x0B{$symbols}");
+    }
 }

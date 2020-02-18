@@ -3,6 +3,7 @@
 namespace controllers;
 
 use components\AbstractController;
+use components\App;
 
 /**
  * Class IndexController
@@ -12,6 +13,6 @@ class IndexController extends AbstractController
 {
     public function actionIndex() : string
     {
-        return 'I am alive!!! (' . __METHOD__ . ')';
+        return $this->render('index');
     }
 }
