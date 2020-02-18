@@ -10,8 +10,8 @@ use components\AbstractController;
  */
 class IndexController extends AbstractController
 {
-    public function actionIndex()
+    public function actionIndex() : string
     {
-        echo 'I am alive!!! (' . __METHOD__ . ')';
+        return 'I am alive!!! (' . __METHOD__ . ')';
     }
 }
