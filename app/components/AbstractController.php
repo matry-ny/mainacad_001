@@ -12,9 +12,10 @@ abstract class AbstractController
 {
     /**
      * @param string $template
+     * @param array $variables
      * @return string
      */
-    protected function render(string $template) : string
+    protected function render(string $template, array $variables = [], string $layout = 'main') : string
     {
         $template = sprintf(
             '%s/%s.php',
@@ -22,6 +23,10 @@ abstract class AbstractController
             StringsHelper::trim($template, '/')
         );
 
-        return App::$view->render($template);
+        return App::$view
+            ->setLayout($layout)
+            ->setTemplate($template)
+            ->setVariables($variables)
+            ->render();
     }
 }
