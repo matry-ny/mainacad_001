@@ -15,13 +15,8 @@ class IndexController extends AbstractController
 {
     public function actionIndex() : string
     {
-        (new FileManager())->getDirectories(App::$user);
-
         return $this->render('index', [
-            'name' => 'Dmytro Kotenko',
-            'age' => '30',
-            'rout' => 123213,
-            'template' => 22222222
+            'directories' => (new FileManager(App::$user))->getDirectories()
         ]);
     }
 }
