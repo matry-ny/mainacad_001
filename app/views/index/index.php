@@ -43,6 +43,19 @@
                 </div>
                 <button type="submit" class="btn btn-success mb-2">Upload</button>
             </form>
+
+            <form method="post"
+                  action="/file-manager/upload-many-files"
+                  enctype="multipart/form-data"
+                  class="form-inline">
+                <div class="form-group mx-sm-3 mb-2">
+                    <input type="file"
+                           multiple="multiple"
+                           name="attachements[]"
+                           class="form-control">
+                </div>
+                <button type="submit" class="btn btn-warning mb-2">Upload Many</button>
+            </form>
         </div>
     </main>
 </div>

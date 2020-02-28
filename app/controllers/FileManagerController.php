@@ -2,32 +2,49 @@
 
 namespace controllers;
 
-use components\AbstractController;
 use components\App;
+use components\web\AbstractSecuredController;
+use helpers\ArraysHelper;
 use models\FileManager;
 
 /**
  * Class FileManagerController
  * @package controllers
  */
-class FileManagerController extends AbstractController
+class FileManagerController extends AbstractSecuredController
 {
     public function actionCreateDir()
     {
-        (new FileManager(App::$user))->createDirectory($_POST['dirName']);
+        $this->getModel()->createDirectory($_POST['dirName']);
 
-        header('Location: /', true, 301);
-        exit;
+        $this->redirect('/');
     }
 
     public function actionUploadFile()
     {
-        (new FileManager(App::$user))->uploadFile(
+        $this->getModel()->uploadFile(
             $_FILES['attachement']['tmp_name'],
             $_FILES['attachement']['name']
         );
 
-        header('Location: /', true, 301);
-        exit;
+        $this->redirect('/');
+    }
+
+    public function actionUploadManyFiles()
+    {
+        $files = ArraysHelper::reArrayFiles($_FILES['attachements']);
+        foreach ($files as $file) {
+            $this->getModel()->uploadFile($file['tmp_name'], $file['name']);
+        }
+
+        $this->redirect('/');
+    }
+
+    /**
+     * @return FileManager
+     */
+    private function getModel() : FileManager
+    {
+        return new FileManager(App::getInstance()->getUser());
     }
 }

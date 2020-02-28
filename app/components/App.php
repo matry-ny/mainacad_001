@@ -15,52 +15,99 @@ class App
     /**
      * @var array
      */
-    public static array $config;
+    public array $config;
 
     /**
      * @var Request
      */
-    public static Request $request;
+    public Request $request;
 
     /**
      * @var View
      */
-    public static View $view;
-
-    /**
-     * @var User
-     */
-    public static User $user;
+    public View $view;
 
     /**
      * App constructor.
-     * @param array $config
      */
-    public function __construct(array $config)
+    private function __construct()
     {
-        self::$config = $config;
-        self::$request = new Request($_SERVER['REQUEST_URI']);
-        self::$view = new View(self::$config['viewsDir']);
-        self::$user = new User();
     }
 
     /**
+     * @var App|null
+     */
+    private static ?App $instance = null;
+
+    /**
+     * @return App
+     */
+    public static function getInstance() : App
+    {
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+
+        return self::$instance;
+    }
+
+    /**
+     * @param array $config
      * @return mixed
      */
-    public function run()
+    public function run(array $config)
     {
+        $this->startSession();
+
+        $this->config = $config;
+        $this->request = new Request($_SERVER['REQUEST_URI']);
+        $this->view = new View($this->config['viewsDir']);
+
         return (new Dispatcher())->dispatch();
     }
 
     /**
+     * ToDo: Homework
      * Format: $this->getParam('users.nik.id')
      *
      * @param string $param
-     * @param null $default
+     * @param null|mixed $default
      * @return mixed
      */
     public function getParam(string $param, $default = null)
     {
-        return self::$config['users']['nik']['id'];
+        return $this->config['users']['nik']['id'];
+    }
+
+    /**
+     * @param User $user
+     */
+    public function setUser(User $user) : void
+    {
+        $_SESSION['user'] = $user;
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser() : User
+    {
+        if (!array_key_exists('user', $_SESSION)) {
+            $_SESSION['user'] = new User();
+        }
+
+        return $_SESSION['user'];
+    }
+
+    /**
+     * Checking existing session and create if not exists
+     */
+    private function startSession() : void
+    {
+        if (session_id()) {
+            return;
+        }
+
+        session_start();
     }
 }

@@ -24,7 +24,7 @@ class Dispatcher
      */
     private function prepareController() : AbstractController
     {
-        $controller = App::$request->getControllerName();
+        $controller = App::getInstance()->request->getControllerName();
         $controller = StringsHelper::camelize($controller);
         $controller = "\\controllers\\{$controller}Controller";
 
@@ -46,7 +46,7 @@ class Dispatcher
      */
     private function runAction(AbstractController $controller)
     {
-        $action = App::$request->getActionName();
+        $action = App::getInstance()->request->getActionName();
         $action = StringsHelper::camelize($action);
         $action = "action{$action}";
 

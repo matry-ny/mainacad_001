@@ -2,16 +2,19 @@
 
 namespace controllers;
 
-use components\AbstractController;
+use components\App;
+use components\web\AbstractSecuredController;
 
 /**
  * Class ProfileController
  * @package controllers
  */
-class ProfileController extends AbstractController
+class ProfileController extends AbstractSecuredController
 {
-    public function actionView()
+    public function actionSignOut()
     {
-        echo 'I am alive!!! (' . __METHOD__ . ')';
+        App::getInstance()->getUser()->signOut();
+
+        $this->redirect('/');
     }
 }

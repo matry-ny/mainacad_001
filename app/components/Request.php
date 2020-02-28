@@ -55,4 +55,12 @@ class Request
     {
         return $this->actionName;
     }
+
+    /**
+     * @return bool
+     */
+    public function getIsPost() : bool
+    {
+        return strtoupper($_SERVER['REQUEST_METHOD']) === 'POST';
+    }
 }

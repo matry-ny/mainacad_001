@@ -4,9 +4,6 @@ return [
     'dataDir' => __DIR__ . '/../data/',
     'viewsDir' => __DIR__ . '/../views/',
     'users' => [
-        'nik' => [
-            'id' => 1,
-            'hasj' => 'weee'
-        ]
+        'dkotenko' => '$2y$10$FSuDwexCEIyl9tS6OHCBVe7qil8Zh4EGeB/Ycosc/Efo4uJLq.Dlm'
     ]
 ];

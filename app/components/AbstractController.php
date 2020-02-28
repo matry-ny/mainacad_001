@@ -19,14 +19,24 @@ abstract class AbstractController
     {
         $template = sprintf(
             '%s/%s.php',
-            App::$request->getControllerName(),
+            App::getInstance()->request->getControllerName(),
             StringsHelper::trim($template, '/')
         );
 
-        return App::$view
+        return App::getInstance()->view
             ->setLayout($layout)
             ->setTemplate($template)
             ->setVariables($variables)
             ->render();
+    }
+
+    /**
+     * @param string $url
+     * @param int $status
+     */
+    protected function redirect(string $url, int $status = 301) : void
+    {
+        header("Location: {$url}", true, $status);
+        exit;
     }
 }

@@ -2,21 +2,20 @@
 
 namespace controllers;
 
-use components\AbstractController;
 use components\App;
+use components\web\AbstractSecuredController;
 use models\FileManager;
-use models\User;
 
 /**
  * Class IndexController
  * @package controllers
  */
-class IndexController extends AbstractController
+class IndexController extends AbstractSecuredController
 {
     public function actionIndex() : string
     {
         return $this->render('index', [
-            'directories' => (new FileManager(App::$user))->getDirectories()
+            'directories' => (new FileManager(App::getInstance()->getUser()))->getDirectories()
         ]);
     }
 }
