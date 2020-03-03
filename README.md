@@ -13,7 +13,7 @@
 В терминале перейти в корневую директорию проекта и выполнить команды:
 - Сборка контейнеров: `docker-compose build`
 - Запуск конткейнеров: `docker-compose up -d`
-- В файле `C:\Windows\System32\Drivers\etc\hosts` прописать: `127.0.0.1  mainacad-001.local`
+- В файле `C:\Windows\System32\Drivers\etc\hosts` прописать: `127.0.0.1  mainacad-001.local mainacad.pma.local`
 
 # Наслаждайтесь:
 - WEB: http://mainacad-001.local:8082/

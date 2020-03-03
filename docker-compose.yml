@@ -7,6 +7,8 @@ services:
       - .:/var/www
     env_file:
       - docker.env
+    depends_on:
+      - db
   nginx:
     image: nginx:1.17
     container_name: nginx-mainacad
@@ -21,3 +23,28 @@ services:
       - php
     env_file:
       - docker.env
+  db:
+    image: mysql
+    container_name: mysql-mainacad
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_DATABASE: mainacad
+      MYSQL_USER: app_admin
+      MYSQL_PASSWORD: 123
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+  phpmyadmin:
+    restart: always
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin-mainacad
+    hostname: mainacad.pma
+    domainname: mainacad.pma.local
+    ports:
+      - 8000:80
+    environment:
+      - PMA_USER=root
+      - PMA_PASSWORD=
+      - PMA_ABSOLUTE_URI=http://mainacad.pma.local/
+      - MYSQL_ROOT_PASSWORD=
+    depends_on:
+      - db
