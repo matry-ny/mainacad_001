@@ -28,6 +28,11 @@ class App
     public View $view;
 
     /**
+     * @var DB
+     */
+    public DB $db;
+
+    /**
      * App constructor.
      */
     private function __construct()
@@ -62,6 +67,12 @@ class App
         $this->config = $config;
         $this->request = new Request($_SERVER['REQUEST_URI']);
         $this->view = new View($this->config['viewsDir']);
+        $this->db = new DB(
+            $this->config['db']['host'],
+            $this->config['db']['user'],
+            $this->config['db']['password'],
+            $this->config['db']['name']
+        );
 
         return (new Dispatcher())->dispatch();
     }

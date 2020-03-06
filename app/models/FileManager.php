@@ -67,6 +67,6 @@ class FileManager
      */
     private function getBaseDir() : string
     {
-        return App::getInstance()->config['dataDir'] . $this->user->accountHash;
+        return App::getInstance()->config['dataDir'] . $this->user->directory;
     }
 }
