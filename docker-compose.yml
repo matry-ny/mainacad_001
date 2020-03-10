@@ -25,6 +25,8 @@ services:
       - docker.env
   db:
     image: mysql
+    ports:
+      - 3306:3306
     container_name: mysql-mainacad
     command: --default-authentication-plugin=mysql_native_password
     restart: always

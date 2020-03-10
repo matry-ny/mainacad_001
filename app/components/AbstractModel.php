@@ -25,6 +25,24 @@ abstract class AbstractModel
     }
 
     /**
+     * @return static[]
+     */
+    public static function findAll() : array
+    {
+        $model = new static();
+        $sql = "SELECT * FROM `{$model->tableName()}`";
+        $statement = $model->getDB()->prepare($sql);
+        $statement->execute();
+
+        $result = [];
+        while ($model = $statement->fetchObject(static::class)) {
+            $result[] = $model;
+        }
+
+        return $result;
+    }
+
+    /**
      * @param array $conditions
      * @param string $glue
      * @return static|null
@@ -54,5 +72,70 @@ abstract class AbstractModel
         $statement->execute();
 
         return $statement->fetchObject(static::class) ?: null;
+    }
+
+    /**
+     * @param array $data
+     * @return bool
+     */
+    public function insert(array $data) : bool
+    {
+        $fields = array_keys($data);
+        $values = [];
+        foreach ($fields as $field) {
+            $values[] = ":{$field}";
+        }
+
+        $sql = sprintf(
+            'INSERT INTO `%s` (`%s`) VALUES (%s)',
+            $this->tableName(),
+            implode('`, `', $fields),
+            implode(', ', $values)
+        );
+
+        $statement = $this->getDB()->prepare($sql);
+        foreach ($data as $key => $value) {
+            $statement->bindValue(":{$key}", $value);
+        }
+
+        return $statement->execute();
+    }
+
+    /**
+     * @param array $data
+     * @return bool
+     */
+    public function update(array $data) : bool
+    {
+        $values = [];
+        foreach (array_keys($data) as $field) {
+            $values[] = "`{$field}` = :{$field}";
+        }
+
+        $sql = sprintf(
+            'UPDATE `%s` SET %s WHERE `id` = :id LIMIT 1',
+            $this->tableName(),
+            implode(', ', $values)
+        );
+
+        $statement = $this->getDB()->prepare($sql);
+        foreach ($data as $key => $value) {
+            $statement->bindValue(":{$key}", $value);
+        }
+        $statement->bindValue(':id', $this->id);
+
+        return $statement->execute();
+    }
+
+    /**
+     * @return bool
+     */
+    public function delete() : bool
+    {
+        $sql = "DELETE FROM {$this->tableName()} WHERE id = :id LIMIT 1";
+        $statement = $this->getDB()->prepare($sql);
+        $statement->bindValue(':id', $this->id);
+
+        return $statement->execute();
     }
 }
