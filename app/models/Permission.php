@@ -3,7 +3,6 @@
 namespace models;
 
 use components\AbstractModel;
-use components\App;
 
 /**
  * Class User

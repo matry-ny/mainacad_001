@@ -28,6 +28,9 @@
     <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">MainAPP</a>
     <ul class="navbar-nav px-3 flex-row bd-navbar-nav">
         <li class="nav-item">
+            <a class="nav-link" href="/roles/list">Roles</a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" href="/permissions/list">Permissions</a>
         </li>
         <li class="nav-item">

@@ -4,7 +4,6 @@ namespace models;
 
 use components\AbstractModel;
 use components\App;
-use PDO;
 
 /**
  * Class User

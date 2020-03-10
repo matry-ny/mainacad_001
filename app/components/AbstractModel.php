@@ -30,7 +30,7 @@ abstract class AbstractModel
     public static function findAll() : array
     {
         $model = new static();
-        $sql = "SELECT * FROM `{$model->tableName()}`";
+        $sql = "SELECT * FROM `{$model->tableName()}` ORDER BY `id`";
         $statement = $model->getDB()->prepare($sql);
         $statement->execute();
 

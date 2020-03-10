@@ -15,9 +15,6 @@ class PermissionsController extends AbstractSecuredController
     public function actionList()
     {
         $permissions = Permission::findAll();
-        usort($permissions, static function (Permission $a, Permission $b) {
-            return $a->id <=> $b->id;
-        });
 
         return $this->render('list', [
             'permissions' => $permissions
