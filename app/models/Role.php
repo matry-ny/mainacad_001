@@ -33,11 +33,14 @@ class Role extends AbstractModel
             unset($data['permissions']);
 
             $this->getDB()->beginTransaction();
+
             parent::insert($data);
+            $roleId = $this->getDB()->lastInsertId();
+            $this->refreshPermissions($roleId, $permissions);
+
             $this->getDB()->commit();
 
-            $roleId = $this->getDB()->lastInsertId();
-            return self::refreshPermissions($roleId, $permissions);
+            return true;
         } catch(PDOException $exception) {
             $this->getDB()->rollback();
         }
@@ -45,10 +48,21 @@ class Role extends AbstractModel
         return false;
     }
 
-    private static function refreshPermissions(int $roleId, array $permissions) : bool
+    /**
+     * @param int $roleId
+     * @param array $permissions
+     * @return bool
+     */
+    private function refreshPermissions(int $roleId, array $permissions) : bool
     {
-        $role = self::findOne(['id' => $roleId]);
-        var_dump($roleId, $role);exit;
-        return true;
+        $rows = [];
+        foreach ($permissions as $permissionId) {
+            $rows[] = "({$roleId}, {$permissionId})";
+        }
+
+        $sql = 'INSERT INTO `role_to_permission` (`role_id`, `permission_id`) VALUES ' . implode(', ', $rows);
+        $statement = $this->getDB()->prepare($sql);
+
+        return $this->execute($statement);
     }
 }

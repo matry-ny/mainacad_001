@@ -2,8 +2,9 @@
 
 namespace components;
 
-use models\User;
 use PDO;
+use PDOException;
+use PDOStatement;
 
 /**
  * Class AbstractModel
@@ -31,8 +32,7 @@ abstract class AbstractModel
     {
         $model = new static();
         $sql = "SELECT * FROM `{$model->tableName()}` ORDER BY `id`";
-        $statement = $model->getDB()->prepare($sql);
-        $statement->execute();
+        $statement = $model->getDB()->query($sql);
 
         $result = [];
         while ($model = $statement->fetchObject(static::class)) {
@@ -98,7 +98,7 @@ abstract class AbstractModel
             $statement->bindValue(":{$key}", $value);
         }
 
-        return $statement->execute();
+        return $this->execute($statement);
     }
 
     /**
@@ -124,7 +124,7 @@ abstract class AbstractModel
         }
         $statement->bindValue(':id', $this->id);
 
-        return $statement->execute();
+        return $this->execute($statement);
     }
 
     /**
@@ -136,6 +136,40 @@ abstract class AbstractModel
         $statement = $this->getDB()->prepare($sql);
         $statement->bindValue(':id', $this->id);
 
-        return $statement->execute();
+        return $this->execute($statement);
+    }
+
+    /**
+     * @param PDOStatement $statement
+     * @return bool
+     */
+    protected function execute(PDOStatement $statement) : bool
+    {
+        if (!$statement->execute()) {
+            throw new PDOException($this->getErrorMessage($statement), $this->getErrorCode($statement));
+        }
+
+        return true;
+    }
+
+    /**
+     * @param PDOStatement $statement
+     * @return string
+     */
+    protected function getErrorMessage(PDOStatement $statement) : string
+    {
+        return $statement->errorInfo()[2] ?? 'Unknown error';
+    }
+
+    /**
+     * @param PDOStatement $statement
+     * @return string
+     */
+    protected function getErrorCode(PDOStatement $statement) : string
+    {
+        $sqlError = $statement->errorInfo()[0] ?? '00000';
+        $driverError = $statement->errorInfo()[1] ?? '0000';
+
+        return "{$sqlError}.{$driverError}";
     }
 }
