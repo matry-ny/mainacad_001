@@ -9,6 +9,7 @@ services:
       - docker.env
     depends_on:
       - db
+      - laravel_db
   nginx:
     image: nginx:1.17
     container_name: nginx-mainacad
@@ -33,6 +34,18 @@ services:
     environment:
       MYSQL_DATABASE: mainacad
       MYSQL_USER: app_admin
+      MYSQL_PASSWORD: 123
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+  laravel_db:
+    image: mysql
+    ports:
+      - 3308:3306
+    container_name: mysql-laravel-mainacad
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_DATABASE: mainacad_laravel
+      MYSQL_USER: laravel_admin
       MYSQL_PASSWORD: 123
       MYSQL_ALLOW_EMPTY_PASSWORD: 1
   phpmyadmin:
