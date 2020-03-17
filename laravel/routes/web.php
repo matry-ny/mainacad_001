@@ -13,11 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('/', static function () {
     return view('welcome');
 });
 Route::get('/users', 'UsersController@index')->name('users-list');
-Route::get('/user/{id}/{name}', 'UsersController@view')->where('id', '\d+');
-Route::get('/redirect', function () {
+Route::get('/user/{id}/{name}', 'UsersController@view')->where('id', '\d+')->name('view-user');
+Route::get('/redirect', static function () {
     return redirect()->route('users-list');
 });
